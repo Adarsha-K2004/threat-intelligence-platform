@@ -3,7 +3,7 @@ from routes.describe import describe_bp
 from routes.recommend import recommend_bp
 from routes.report import report_bp
 
-from services.groq_client import generate_response
+from services.groq_client import call_groq
 from middleware.input_sanitizer import sanitize_input
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -51,7 +51,7 @@ def test():
                 "message": error
             }), 400
 
-        response = generate_response(clean_prompt)
+        response = call_groq(clean_prompt)
 
         return jsonify({
             "status": "success",

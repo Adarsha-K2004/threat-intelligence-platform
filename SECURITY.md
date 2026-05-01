@@ -1,22 +1,12 @@
 \# Security Review
 
-
-
-\## Day 1 Work
-
-\- Created security folder
-
-\- Prepared test cases structure
-
-<<<<<<< HEAD
-=======
-3. Rate Limit Abuse  
+1. Rate Limit Abuse  
    Excessive API calls may lead to service disruption or extra costs.
 
-4. Improper Error Handling  
+2. Improper Error Handling  
    Detailed error messages may expose internal system details.
 
-5. Dependency Vulnerabilities  
+3. Dependency Vulnerabilities  
    Third-party libraries may contain security issues.
 
 ## Mitigation Measures
@@ -275,4 +265,14 @@ The application is secure against major web vulnerabilities.
   - Credit card-like numbers
 - Requests containing PII are rejected with error response
 - Ensures compliance with data privacy best practices
->>>>>>> 6006e12 (Day 9: Security sign-off completed — JWT auth, rate limiting, input sanitization (SQL, XSS, prompt injection, PII), validated via Postman and ZAP)
+
+## AI Input Validation & Safety
+
+The system includes protections against:
+- Prompt injection
+- SQL injection
+- PII leakage
+- Empty input handling
+
+For detailed AI quality and testing results, see:
+docs/ai-quality-review.md
