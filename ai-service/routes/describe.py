@@ -15,12 +15,12 @@ def load_prompt(input_text):
 
 @describe_bp.route("/describe", methods=["POST"])
 def describe():
-    data = request.json.get("input")
+    data = request.json
 
-    if not data:
+    user_input = data.get("input")
+
+    if not user_input:
         return jsonify({"error": "Invalid input"}), 400
-
-    prompt = load_prompt(data)
 
     if len(user_input) < 3:
         return jsonify({"error": "Input is too short"}), 400
