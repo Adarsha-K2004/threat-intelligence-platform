@@ -13,29 +13,33 @@ def load_prompt(input_text):
         template = f.read()
     return template.replace("{input}", input_text)
 
+
 @recommend_bp.route("/recommend", methods=["POST"])
 def recommend():
     data = request.json
-
     user_input = data.get("input")
 
     if not user_input:
         return jsonify({"error": "Invalid input"}), 400
 
+    #  input size protection
     if len(user_input) > 2000:
         return jsonify({
             "error": "Input is too long (max 2000 chars)",
             "recommendations": []
         }), 400
 
+    #  FIX: use correct variable
     prompt = load_prompt(user_input)
-    cached_result = get_cache(prompt)
 
+    #  caching
+    cached_result = get_cache(prompt)
     if cached_result:
         cached_result["cached"] = True
         cached_result["generated_at"] = datetime.now(timezone.utc).isoformat()
         return jsonify(cached_result), 200
 
+    #  AI call + metrics
     start_time = time.time()
     ai_response = call_groq(prompt)
     record_ai_response_time(time.time() - start_time)
@@ -56,7 +60,11 @@ def recommend():
             "is_fallback": False
         }
 
-        set_cache(prompt, {"recommendations": recommendations[:3], "is_fallback": False})
+        set_cache(prompt, {
+            "recommendations": recommendations[:3],
+            "is_fallback": False
+        })
+
         return jsonify(result), 200
 
     except Exception as e:
